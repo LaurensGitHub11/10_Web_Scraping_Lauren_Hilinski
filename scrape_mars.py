@@ -51,16 +51,17 @@ def scrape():
         astro_img_url.append(astro_soup.select('div.wide-image-wrapper li a')[0]['href'])
         astro_title.append(astro_soup.select('h2.title')[0].text)
     browser.quit()
-    cerberus_dict = {"title": astro_title[0], "img_url": astro_img_url[0]}
-    valles_dict = {"title": astro_title[1], "img_url": astro_img_url[1]}
-    schiaparelli_dict = {"title": astro_title[2], "img_url": astro_img_url[2]}
-    syrtis_dict = {"title": astro_title[3], "img_url": astro_img_url[3]}
-    hemisphere_image_urls = [cerberus_dict, valles_dict, schiaparelli_dict, syrtis_dict]
+    cerberus = {"title": astro_title[0], "img_url": astro_img_url[0]}
+    valles = {"title": astro_title[1], "img_url": astro_img_url[1]}
+    schiaparelli = {"title": astro_title[2], "img_url": astro_img_url[2]}
+    syrtis = {"title": astro_title[3], "img_url": astro_img_url[3]}
 
     table_url = "https://space-facts.com/mars/"
     mars_table = pd.read_html(table_url)
-    mars_table
+    mars_df = mars_table[0]
+    mars_df.columns = ['Key', 'Value']
+    mars_html_table = mars_df.to_html().replace('\n', '')
 
-    planet_mars = {"current_news_title": news_title, "current_news": news_paragraph, "featured_image": featured_image_url, "mars_weather": mars_weather, "mars_info": "need to update", "hemispheres": hemisphere_image_urls}
+    planet_mars = {"current_news_title": news_title, "current_news": news_paragraph, "featured_image": featured_image_url, "mars_weather": mars_weather, "mars_info": mars_html_table, "cerberus_title": cerberus["title"], "cerberus_img": cerberus["img_url"], "valles_title": valles["title"], "valles_img": valles["img_url"], "schiaparelli_title": schiaparelli["title"], "schiaparelli_img": schiaparelli["img_url"], "syrtis_title": syrtis["title"], "syrtis_img": syrtis["img_url"]}
 
     return planet_mars

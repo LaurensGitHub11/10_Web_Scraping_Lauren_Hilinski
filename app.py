@@ -21,6 +21,5 @@ def scraper():
     mars.update({}, planet_mars, upsert=True)
     return redirect("/", code=302)
 
-
 if __name__ == "__main__":
     app.run(debug=True)
